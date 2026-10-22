@@ -1,0 +1,9 @@
+# Same look as the TurboRUL dashboard: blue accent, red/amber/green kept for good/bad status.
+[theme]
+primaryColor = "#2a78d6"
+backgroundColor = "#ffffff"
+secondaryBackgroundColor = "#f3f4f6"
+textColor = "#1f1f1e"
+
+[browser]
+gatherUsageStats = false

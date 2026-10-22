@@ -1,0 +1,237 @@
+[
+  {
+    "name": "Guess an address",
+    "verdict": "blocked",
+    "headline": "0 of 200,000 random MACs got in",
+    "details": "The router held 150 valid addresses (50 laptops \u00d7 3 slots) out of 70,368,744,177,664 possible, so each guess has a 2.1e-12 chance. Honest maths: at this PC's full speed (74,182 guesses/s, no network in the way) one lucky hit would take about 73 days of non-stop guessing. Over real Wi-Fi (~1,000 frames/s at best) it's about 15 years, and the router would see millions of junk frames. Even a lucky hit only works until that slot ends \u2014 and it gains nothing that copying the visible address (test 3) doesn't, so real protection comes from WPA3 / 802.1X login.",
+    "numbers": {
+      "attempts": 200000,
+      "accepted": 0,
+      "seconds": 2.696062899998651,
+      "rate": 74182.24552554025,
+      "chance_per_guess": 2.1316282072803006e-12,
+      "seconds_to_one_hit_local": 6323952.0165632,
+      "seconds_to_one_hit_wifi": 469124961.1844267
+    }
+  },
+  {
+    "name": "Replay an old address",
+    "verdict": "blocked",
+    "headline": "0 of 11 older addresses got in",
+    "details": "Addresses recorded 2 or more slots ago are useless. The one from the slot just before (accepted) is still accepted on purpose so a laptop whose clock is a little behind isn't locked out \u2014 that's a one-slot window, the same idea as login codes.",
+    "numbers": {
+      "rows": [
+        {
+          "Slot": -12,
+          "Recorded MAC": "6e:7a:11:2f:18:f6",
+          "Router": "rejected"
+        },
+        {
+          "Slot": -11,
+          "Recorded MAC": "5a:b1:5e:dd:a4:8f",
+          "Router": "rejected"
+        },
+        {
+          "Slot": -10,
+          "Recorded MAC": "e6:36:24:ef:6e:66",
+          "Router": "rejected"
+        },
+        {
+          "Slot": -9,
+          "Recorded MAC": "c2:4e:c2:95:2c:2c",
+          "Router": "rejected"
+        },
+        {
+          "Slot": -8,
+          "Recorded MAC": "ce:9c:33:36:f1:3f",
+          "Router": "rejected"
+        },
+        {
+          "Slot": -7,
+          "Recorded MAC": "66:55:63:43:9f:77",
+          "Router": "rejected"
+        },
+        {
+          "Slot": -6,
+          "Recorded MAC": "72:fe:5f:2e:b3:d2",
+          "Router": "rejected"
+        },
+        {
+          "Slot": -5,
+          "Recorded MAC": "16:eb:91:3b:1d:a9",
+          "Router": "rejected"
+        },
+        {
+          "Slot": -4,
+          "Recorded MAC": "ce:e1:c5:0d:ef:7d",
+          "Router": "rejected"
+        },
+        {
+          "Slot": -3,
+          "Recorded MAC": "5a:1b:37:2c:dc:a4",
+          "Router": "rejected"
+        },
+        {
+          "Slot": -2,
+          "Recorded MAC": "3e:55:b6:df:50:75",
+          "Router": "rejected"
+        },
+        {
+          "Slot": -1,
+          "Recorded MAC": "8e:1a:e5:dc:6d:43",
+          "Router": "let in"
+        }
+      ]
+    }
+  },
+  {
+    "name": "Copy the current address (spoofing)",
+    "verdict": "warning",
+    "headline": "Copied MAC c2:69:00:7b:1d:3c was let in as laptop-00",
+    "details": "Honest result: anyone can see the address a laptop is using right now and copy it until the slot ends, because a MAC address is not a password. AMR is a privacy feature (it stops tracking over time); it should be used together with real network login such as WPA3 or 802.1X, which stops an impostor even if it copies the address.",
+    "numbers": {
+      "mac": "c2:69:00:7b:1d:3c",
+      "accepted_as": "laptop-00"
+    }
+  },
+  {
+    "name": "Predict the next address",
+    "verdict": "blocked",
+    "headline": "0 correct predictions; bit-by-bit accuracy 49.9% (a coin flip is 50%)",
+    "details": "The attacker saw 2,000 of the laptop's past addresses and tried three predictors: 'same as last time' (0 hits), 'repeat the last change' (0 hits) and a learned per-bit pattern model (0 exact hits). Being right on 49.9% of bits is what you get by guessing \u2014 past addresses say nothing about the next one without the key.",
+    "numbers": {
+      "history": 2000,
+      "bit_accuracy": 0.4993913043478261,
+      "exact_hits": 0,
+      "repeat_hits": 0,
+      "delta_hits": 0
+    }
+  },
+  {
+    "name": "Crack the key (brute force)",
+    "verdict": "blocked",
+    "headline": "Small keys fall in seconds; the real 256-bit key would take ~2.0e+64 years",
+    "details": "The attacker knows the laptop name, the slot and the MAC, and tries every key. This PC managed 92,262 keys per second. The real key is 256 bits, so on average it needs 2^255 tries: about 2.0e+64 years \u2014 roughly 1.4e+54 times the age of the universe. That's why the small-key rows are only there to show the method works.",
+    "numbers": {
+      "rows": [
+        {
+          "Key size": "16 bits",
+          "Keys possible": "65,536",
+          "Keys tried": "33,607",
+          "Time": "0.41 s",
+          "Cracked": "yes"
+        },
+        {
+          "Key size": "20 bits",
+          "Keys possible": "1,048,576",
+          "Keys tried": "123,122",
+          "Time": "1.33 s",
+          "Cracked": "yes"
+        }
+      ],
+      "rate": 92262.34813166111,
+      "years_256": 1.9884763211780887e+64
+    }
+  },
+  {
+    "name": "Randomness checks",
+    "verdict": "blocked",
+    "headline": "AMR addresses are statistically indistinguishable from random",
+    "details": "Each check gives a p-value: anything above 0.001 means 'no detectable pattern'. Half the bits are 1s, no bit position is biased, and on average half the bits flip from one address to the next \u2014 exactly like true random. An outsider can't tell an AMR address from a random one.",
+    "numbers": {
+      "rows": [
+        {
+          "Check": "Share of 1-bits",
+          "AMR addresses": "0.4999",
+          "True random": "0.5004"
+        },
+        {
+          "Check": "p (balanced 0/1)",
+          "AMR addresses": "0.821",
+          "True random": "0.228"
+        },
+        {
+          "Check": "Most biased bit position",
+          "AMR addresses": "0.0060",
+          "True random": "0.0061"
+        },
+        {
+          "Check": "p (every position fair)",
+          "AMR addresses": "0.354",
+          "True random": "0.278"
+        },
+        {
+          "Check": "Avg bits changed between consecutive",
+          "AMR addresses": "22.98 of 46",
+          "True random": "23.02 of 46"
+        },
+        {
+          "Check": "p (no link to previous)",
+          "AMR addresses": "0.284",
+          "True random": "0.291"
+        }
+      ],
+      "min_p": 0.283888313617545
+    }
+  },
+  {
+    "name": "Almost-right key",
+    "verdict": "blocked",
+    "headline": "A key off by just 1 bit changes 23.0 of 46 address bits on average; 0 matches",
+    "details": "Getting the key 'nearly right' is worth nothing: flipping a single one of its 256 bits scrambles about half of the address (the 'avalanche effect' of SHA-256). There's no way to creep up on the right key.",
+    "numbers": {
+      "trials": 2000,
+      "mean_bits_changed": 23.0225,
+      "exact": 0,
+      "hist": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        7,
+        21,
+        28,
+        57,
+        67,
+        103,
+        170,
+        227,
+        216,
+        225,
+        212,
+        178,
+        172,
+        111,
+        91,
+        54,
+        35,
+        15,
+        4,
+        3,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  }
+]
